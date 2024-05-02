@@ -1,0 +1,39 @@
+mat-toolbar.smallScreen {
+  // Applied to mat-toolbar on a small screen
+  padding-left: 0;
+}
+
+mat-toolbar a {
+  text-decoration: none;
+  color: white;
+}
+
+button[mat-icon-button].smallScreen {
+  // Applied to the menu button on a small screen
+  // Uses an attribute selector
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#links {
+  display: flex;
+  width: 100%; 
+  justify-content: end;
+  align-items: center;
+}
+
+#links a {
+  padding-left: 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+#links a:hover, a:active {
+  color: lightgray;
+}
+
+#links button {
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

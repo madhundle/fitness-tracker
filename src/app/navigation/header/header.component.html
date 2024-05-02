@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" [ngClass]="{ smallScreen: smallScreen }">
+      
+  <!-- Menu Icon -->
+  <div *ngIf="smallScreen">
+    <button mat-icon-button 
+      (click)="onToggleSidenav()" 
+      [ngClass]="{ smallScreen: smallScreen }">
+    <mat-icon>menu</mat-icon>
+  </button></div>
+  
+  <!-- Page Title -->
+  <div><a routerLink="/">Fitness Tracker</a></div>
+
+  <!-- Links -->
+  <div id="links" *ngIf="!smallScreen">
+    <a routerLink="/signup">Signup</a>
+    <a routerLink="/login">Login</a>
+    <a routerLink="/training">Training</a>
+    <button mat-flat-button color="accent">Logout</button>
+  </div>
+</mat-toolbar>

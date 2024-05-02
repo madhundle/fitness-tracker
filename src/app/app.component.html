@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <!-- The Sidenav -->
+  <mat-sidenav #sidenav role="navigation">
+
+    <!-- List of Links -->
+    <app-sidenav-list (sidenavToggle)="sidenav.toggle()"></app-sidenav-list>
+
+  </mat-sidenav>
+
+  <!-- The content of the page -->
+  <mat-sidenav-content>
+    
+    <!-- Toolbar at top of pages -->
+    <app-header (sidenavToggle)="sidenav.toggle()"></app-header>    
+
+    <!-- Render Webpages -->
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
