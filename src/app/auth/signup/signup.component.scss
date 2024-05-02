@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 90%;
+  max-width: 400px;
+  margin-top: 1rem;
+}
+
+mat-checkbox {
+  margin-top: 1rem;
+}
+
+#submitBtn {
+  margin-top: 1rem;
+}

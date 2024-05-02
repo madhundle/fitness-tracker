@@ -1,1 +1,32 @@
-<p>login works!</p>
+<section>
+
+  <!-- Signup Form -->
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+
+    <!-- Email -->
+    <mat-form-field floatLabel="auto">
+      <mat-label>email address</mat-label>
+      <input matInput type="email" ngModel name="email" email required #emailInput="ngModel">
+      <mat-error *ngIf="emailInput.hasError('required')">e-mail is required</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">e-mail is invalid</mat-error>
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field hintLabel="minimum length of 6 characters">
+      <mat-label>password</mat-label>
+      <input matInput type="password" ngModel name="password" required minlength="6"
+       #pwInput="ngModel">
+      <mat-hint align="end">{{ pwInput.value?.length }}</mat-hint>
+      <mat-error>password is invalid</mat-error>
+    </mat-form-field>
+
+    <!-- Submit -->
+    <button mat-raised-button 
+     color="primary" 
+     type="submit" 
+     id="submitBtn"
+     [disabled]="signupForm.invalid">
+     Submit
+    </button>
+  </form>
+</section>

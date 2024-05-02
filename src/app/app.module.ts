@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -28,6 +29,7 @@ import { PastTrainingsComponent } from './training/past-trainings/past-trainings
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     MaterialModule
   ],
   providers: [
