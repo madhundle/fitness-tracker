@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Training Paused</h1>
+<mat-dialog-content>
+  <p>You are {{ data.progress }}% done</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="false">Resume</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="true">Stop</button>
+</mat-dialog-actions>

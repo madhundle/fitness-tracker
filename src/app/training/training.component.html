@@ -1,1 +1,15 @@
-<p>training works!</p>
+<!-- Show options of New Training or Past Trainings -->
+<mat-tab-group *ngIf="!activeTraining">
+    <mat-tab label="New Training">
+      <app-new-training (trainingStart)="activeTraining = true"></app-new-training>
+    </mat-tab>
+    <mat-tab label="Past Training">
+      <app-past-trainings></app-past-trainings>
+    </mat-tab>
+</mat-tab-group>
+
+<!-- When a training is active, show the Current Training -->
+<app-current-training 
+  *ngIf="activeTraining" 
+  (trainingStop)="activeTraining = false">
+</app-current-training>

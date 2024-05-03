@@ -1,0 +1,39 @@
+
+
+// Trying to make the card body full height
+mat-tab-group {
+  height: 100%;
+}
+
+mat-tab {
+  height: 100%;
+}
+
+.mat-mdc-tab-body-wrapper {
+  height: 100%;
+}
+
+mat-tab-body {
+  height: 100%;
+  
+}
+
+.mat-mdc-tab-body-content {
+
+  height: 100%;
+}
+
+app-new-training, app-past-trainings {
+  // padding: 1rem;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+app-current-training {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding-top: 1rem;
+}
+

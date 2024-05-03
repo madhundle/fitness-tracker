@@ -1,1 +1,13 @@
-<p>current-training works!</p>
+<!-- Show the progress spinner for the active training -->
+<section class="activeTraining">
+  <mat-progress-spinner [value]="progress"></mat-progress-spinner>
+
+  <h1>{{ progress }}%</h1>
+
+  <p *ngIf="!complete">Keep it up!</p>
+  <p *ngIf="complete">Great work!</p>
+
+  <button *ngIf="!complete" mat-raised-button color="accent" (click)="onPause()">Pause</button>
+  <button *ngIf="complete" mat-raised-button color="primary" (click)="onExit()">Exit</button>
+</section>
+
