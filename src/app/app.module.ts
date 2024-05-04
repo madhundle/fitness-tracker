@@ -18,6 +18,8 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { PauseTrainingComponent } from './training/current-training/pause-training.component';
 
+import { AuthService } from './auth/auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,8 @@ import { PauseTrainingComponent } from './training/current-training/pause-traini
     MaterialModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -13,9 +13,10 @@
 
   <!-- Links -->
   <div id="links" *ngIf="!smallScreen">
-    <a routerLink="/signup">Signup</a>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/training">Training</a>
-    <button mat-flat-button color="accent">Logout</button>
+    <a routerLink="/signup" *ngIf="!isAuth">Signup</a>
+    <a routerLink="/login" *ngIf="!isAuth">Login</a>
+    <a routerLink="/training" *ngIf="isAuth">Training</a>
+    <button mat-flat-button color="accent" *ngIf="isAuth"
+      (click)="onLogout()">Logout</button>
   </div>
 </mat-toolbar>
