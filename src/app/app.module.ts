@@ -19,6 +19,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { PauseTrainingComponent } from './training/current-training/pause-training.component';
 
 import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AuthService } from './auth/auth.service';
   ],
   providers: [
     provideAnimationsAsync(),
-    AuthService
+    AuthService,
+    TrainingService
   ],
   bootstrap: [AppComponent]
 })

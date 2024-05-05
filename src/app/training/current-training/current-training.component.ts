@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PauseTrainingComponent } from './pause-training.component';
+import { TrainingService } from '../training.service';
+import { Activity } from '../activity.model';
 
 @Component({
   selector: 'app-current-training',
@@ -8,6 +10,7 @@ import { PauseTrainingComponent } from './pause-training.component';
   styleUrl: './current-training.component.scss'
 })
 export class CurrentTrainingComponent implements OnInit {
+  currentActivity: Activity;
   progress = 0;
   complete = false;
 
@@ -16,25 +19,30 @@ export class CurrentTrainingComponent implements OnInit {
 
   @Output() trainingStop = new EventEmitter();
 
-  constructor(private pauseDialog: MatDialog) {}
+  constructor(private pauseDialog: MatDialog, private trainingService: TrainingService) {}
 
   ngOnInit() {
+    this.currentActivity = this.trainingService.getCurrentActivity();
     this.startTimer();
   }
 
   startTimer() {
     // start (or resume) the timer
+    // timer shows 1% progress at appropriate intervals
+    
+    // calculate the interval step, in milliseconds
+    let step = this.currentActivity.duration / 100 * 1000;
 
-    // increase progress by 5% each second
+    // increase progress by step each second
     this.timer = setInterval(() => {
-      this.progress = this.progress + 20;
+      this.progress = this.progress + 1;
       
       // if complete, stop the timer
       if (this.progress >= 100) {
         clearInterval(this.timer);
         this.complete = true;
       }
-    }, 1000);
+    }, step);
 
   }
 
