@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PauseTrainingComponent } from './pause-training.component';
 import { TrainingService } from '../training.service';
@@ -11,13 +11,13 @@ import { Activity } from '../activity.model';
 })
 export class CurrentTrainingComponent implements OnInit {
   currentActivity: Activity;
-  progress = 0;
+  progress = 0; // the percent the activity is complete from 0-100
   complete = false;
 
   // https://stackoverflow.com/questions/55550096/ts2322-type-timeout-is-not-assignable-to-type-number-when-running-unit-te
   timer: number | undefined | ReturnType<typeof setTimeout>;
 
-  @Output() trainingStop = new EventEmitter();
+  // @Output() trainingStop = new EventEmitter(); // replaced by Training Service
 
   constructor(private pauseDialog: MatDialog, private trainingService: TrainingService) {}
 
@@ -26,8 +26,8 @@ export class CurrentTrainingComponent implements OnInit {
     this.startTimer();
   }
 
+  // start (or resume) the timer
   startTimer() {
-    // start (or resume) the timer
     // timer shows 1% progress at appropriate intervals
     
     // calculate the interval step, in milliseconds
@@ -46,6 +46,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   }
 
+  // pause the timer and process the choice to resume or stop
   onPause() {
     // stop the timer
     clearInterval(this.timer);
@@ -60,7 +61,7 @@ export class CurrentTrainingComponent implements OnInit {
     pauseDialogRef.afterClosed().subscribe(result => {
       // stop
       if (result) {
-        this.trainingStop.emit();
+        this.trainingService.cancelActivity(this.progress);
       }
       
       // resume
@@ -70,7 +71,8 @@ export class CurrentTrainingComponent implements OnInit {
     });
   }
 
+  // exit a complete activity
   onExit() {
-    this.trainingStop.emit();
+    this.trainingService.completeActivity();
   }
 }

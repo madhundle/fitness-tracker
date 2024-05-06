@@ -12,23 +12,63 @@ export class TrainingService {
   ];
 
   private currentActivity: Activity;
-  activityStarted = new Subject<Activity>();
+  private pastActivities: Activity[] = [];
+  activityChanged = new Subject<Activity>();
 
+  // safely provide the available activities
+  getAvailableActivities() {
+    // protect the data from editing by returning a copy, not a reference
+    return this.availableActivities.slice();
+  }
+
+  // safely provide the current activity
+  getCurrentActivity() {
+    return { ...this.currentActivity };
+  }
+
+  // safely provide the past activities
+  getPastActivities() {
+    return this.pastActivities.slice();
+  }
+
+  // start an activity
   startActivity(selectedId: string) {
     // from the Id, store the Activity the user selected
     this.currentActivity = this.availableActivities.find(
       act => act.id === selectedId
     )
     // tell the rest of the app
-    this.activityStarted.next({...this.currentActivity});
-  }
-   
-  // protect the data from editing by returning a copy, not a reference
-  getAvailableActivities() {
-    return this.availableActivities.slice();
+    this.activityChanged.next({...this.currentActivity});
   }
 
-  getCurrentActivity() {
-    return { ...this.currentActivity };
+  // complete the current activity
+  completeActivity() {
+    // record the completed activity
+    this.pastActivities.push({
+      ...this.currentActivity,
+      date: new Date(),
+      state: 'completed',
+      calTotal: this.currentActivity.duration / 60 * this.currentActivity.calPerMin
+    });
+    // reset the current activity to none
+    this.currentActivity = null;
+    this.activityChanged.next(null);
+  }
+
+  // cancel the current activity
+  cancelActivity(progress: number) {
+    // progress is the percent the activity is complete from 0-100 
+    let activityTime = this.currentActivity.duration * progress / 100; // seconds
+    // record the cancelled activity
+    this.pastActivities.push({
+      ...this.currentActivity,
+      date: new Date(),
+      state: 'cancelled',
+      duration: activityTime,
+      calTotal: activityTime / 60 * this.currentActivity.calPerMin
+    });
+    // reset the current activity to none
+    this.currentActivity = null;
+    this.activityChanged.next(null);
   }
 }
