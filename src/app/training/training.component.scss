@@ -1,6 +1,5 @@
-
-
-// Trying to make the card body full height
+// Trying to make the card body full height, or at least taller
+// none of these work
 mat-tab-group {
   height: 100%;
 }
@@ -14,26 +13,18 @@ mat-tab {
 }
 
 mat-tab-body {
-  height: 100%;
-  
+  height: 100%; 
 }
 
 .mat-mdc-tab-body-content {
-
   height: 100%;
 }
 
-app-new-training, app-past-trainings {
-  // padding: 1rem;
+app-new-training, app-past-trainings, app-current-training {
+  padding: 1rem;
+  padding-bottom: 0;
   display: flex;
   justify-content: center;
   height: 100%;
-}
-
-app-current-training {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  padding-top: 1rem;
 }
 

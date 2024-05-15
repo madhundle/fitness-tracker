@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "fitness-tracker-6a939": {
+      "hosting": {
+        "fitness-tracker": [
+          "fitness-tracker-6a939"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "fitness-tracker-6a939"
+  }
+}

@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -20,6 +20,11 @@ import { PauseTrainingComponent } from './training/current-training/pause-traini
 
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,10 @@ import { TrainingService } from './training/training.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
   ],
   providers: [
     provideAnimationsAsync(),

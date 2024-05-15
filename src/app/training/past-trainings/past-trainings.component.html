@@ -1,7 +1,8 @@
-<div>
+<div id="pastTrainingsDiv">
   <!-- Filtering for the Table -->
   <mat-form-field>
-    <input MatInput type="text" (keyup)="doFilter($event.target.value)" placeholder="filter">
+    <mat-label>filter</mat-label>
+    <input matInput type="text" (keyup)="doFilter($event.target.value)">
   </mat-form-field>
 
   <!-- Table of Past Activities -->
