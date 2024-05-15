@@ -37,7 +37,8 @@ export class TrainingService {
   fetchAvailableActivities() {
     // create listener to that reference which responds to changes
     this.availableActivitiesUnsub = onSnapshot(
-      this.availableActivitiesRef, (snapshot) => {
+      this.availableActivitiesRef, 
+      (snapshot) => { // onNext
         // console.log(snapshot.docs); // array of 'QueryDocumentSnapshot's
         this.availableActivities = snapshot.docs.map(doc => 
           ({...doc.data(), id: doc.id} as Activity));
@@ -51,6 +52,10 @@ export class TrainingService {
           // console.log({...doc.data(), id: doc.id} as Activity);
           // this.activities.push({...doc.data(), id: doc.id} as Activity);
         // })
+      },
+      (error) => { // onError
+        console.log("Error fetching available activities");
+        console.log(error);
       }
     );
     // console.log("OnInit:", this.activities);
@@ -118,10 +123,16 @@ export class TrainingService {
   // create real-time listener to pastActivities in Firestore
   fetchPastActivities() {
     this.pastActivitiesUnsub = onSnapshot(
-      this.pastActivitiesRef, (snapshot) => {
+      this.pastActivitiesRef, 
+      (snapshot) => { // onNext
         this.pastActivities = snapshot.docs.map(doc =>
-          ({...doc.data(), date: doc.get('date').toDate(), id: doc.id} as Activity)); // ***Do I actually need to store pastActivities here in the Service?
-        this.pastActivitiesChanged.next([...this.pastActivities]); // ***Or should i just emit them?
+          ({...doc.data(), date: doc.get('date').toDate(), id: doc.id} as Activity)); 
+        // *Could refactor to just emit the pastActivities instead of storing*
+        this.pastActivitiesChanged.next([...this.pastActivities]); 
+      },
+      (error) => { // onError
+        console.log("Error fetching past activities");
+        console.log(error);
       }
     )
   }
@@ -129,8 +140,6 @@ export class TrainingService {
   // push a past activity to the Firestore
   private pushPastActivity(activity: Activity) {
     addDoc(this.pastActivitiesRef, activity);
-    // console.log("pushing new past activity");
-    // console.log(activity);
   }
 
 }

@@ -22,9 +22,9 @@ mat-tab-body {
 
 app-new-training, app-past-trainings, app-current-training {
   padding: 1rem;
-  padding-bottom: 0;
+  // padding-bottom: 0;
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: calc(100% - 1rem);
 }
 

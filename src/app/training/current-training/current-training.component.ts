@@ -61,6 +61,7 @@ export class CurrentTrainingComponent implements OnInit {
     pauseDialogRef.afterClosed().subscribe(result => {
       // stop
       if (result) {
+        // Note: Progress is recorded in increments of the step, not raw total
         this.trainingService.cancelActivity(this.progress);
       }
       

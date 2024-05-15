@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   // args: the route we're trying to active (nav to) and the current routing state
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // if user is authenticated, allow access
-    if (this.authService.isAuth()) {
+    if (this.authService.getAuthStatus()) {
       return true;
     }
     // if not, redirect them to login
