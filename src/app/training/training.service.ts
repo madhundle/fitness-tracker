@@ -58,9 +58,25 @@ export class TrainingService {
         console.log(error);
       }
     );
-    // console.log("OnInit:", this.activities);
   }
 
+  // create real-time listener to pastActivities in Firestore
+  fetchPastActivities() {
+    this.pastActivitiesUnsub = onSnapshot(
+      this.pastActivitiesRef, 
+      (snapshot) => { // onNext
+        this.pastActivities = snapshot.docs.map(doc =>
+          ({...doc.data(), date: doc.get('date').toDate(), id: doc.id} as Activity)); 
+        // *Could refactor to just emit the pastActivities instead of storing*
+        this.pastActivitiesChanged.next([...this.pastActivities]); 
+      },
+      (error) => { // onError
+        console.log("Error fetching past activities");
+        console.log(error);
+      }
+    )
+  }
+  
   // safely provide the available activities
   getAvailableActivities() {
     // protect the data from editing by returning a copy, not a reference
@@ -120,26 +136,13 @@ export class TrainingService {
     this.activityStatusChanged.next(null);
   }
 
-  // create real-time listener to pastActivities in Firestore
-  fetchPastActivities() {
-    this.pastActivitiesUnsub = onSnapshot(
-      this.pastActivitiesRef, 
-      (snapshot) => { // onNext
-        this.pastActivities = snapshot.docs.map(doc =>
-          ({...doc.data(), date: doc.get('date').toDate(), id: doc.id} as Activity)); 
-        // *Could refactor to just emit the pastActivities instead of storing*
-        this.pastActivitiesChanged.next([...this.pastActivities]); 
-      },
-      (error) => { // onError
-        console.log("Error fetching past activities");
-        console.log(error);
-      }
-    )
-  }
-
   // push a past activity to the Firestore
   private pushPastActivity(activity: Activity) {
     addDoc(this.pastActivitiesRef, activity);
   }
 
+  cancelSubs() {
+    this.availableActivitiesUnsub();
+    this.pastActivitiesUnsub();
+  }
 }

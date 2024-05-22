@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       else {
         this.smallScreen = false;
       }
-      console.log("small screen:", this.smallScreen);
+      // console.log("small screen:", this.smallScreen);
     });
 
     // Subscribe to logins/logouts and update the header accordingly
