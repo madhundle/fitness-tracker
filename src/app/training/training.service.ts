@@ -2,6 +2,7 @@ import { Firestore, addDoc, collection, onSnapshot } from '@angular/fire/firesto
 import { Activity } from "./activity.model";
 import { Subject } from "rxjs";
 import { Injectable } from '@angular/core';
+import { UIService } from '../shared/ui.service';
 
 // Manage all training for a user
 @Injectable() // allow for injection of Firestore
@@ -27,7 +28,7 @@ export class TrainingService {
   pastActivitiesUnsub: any; // firestore listener
   pastActivitiesRef: any; // reference to Firestore collection
 
-  constructor (private db: Firestore) {
+  constructor (private db: Firestore, private uiService: UIService) {
     // set up Firestore references    
     this.availableActivitiesRef = collection(this.db, 'availableActivities');
     this.pastActivitiesRef = collection(this.db, 'pastActivities');
@@ -56,6 +57,7 @@ export class TrainingService {
       (error) => { // onError
         console.log("Error fetching available activities");
         console.log(error);
+        this.uiService.showSnackBar("Error fetching available activities, please try again later", null, 3000);
       }
     );
   }
@@ -73,6 +75,7 @@ export class TrainingService {
       (error) => { // onError
         console.log("Error fetching past activities");
         console.log(error);
+        this.uiService.showSnackBar("Error fetching past activities, please try again later", null, 3000);
       }
     )
   }

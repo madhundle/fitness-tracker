@@ -8,17 +8,20 @@
     </mat-card-header>
   
     <mat-card-content>
-      <mat-form-field>
+
+      <mat-form-field *ngIf="!isLoading">
         <mat-select placeholder="Select Activity" name="activityId" ngModel required>
           <mat-option *ngFor="let activity of activities" [value]="activity.id">
             {{ activity.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
       
     </mat-card-content>
     
-    <mat-card-actions>
+    <mat-card-actions *ngIf="!isLoading">
       <button mat-raised-button color="primary" type="submit"
         [disabled]="newTrainingForm.invalid">Start</button>
     </mat-card-actions>

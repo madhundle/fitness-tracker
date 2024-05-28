@@ -38,8 +38,11 @@
      color="primary" 
      type="submit" 
      id="submitBtn"
-     [disabled]="!terms.checked || signupForm.invalid">
+     [disabled]="!terms.checked || signupForm.invalid"
+     *ngIf="!isLoading">
      Submit
     </button>
+
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

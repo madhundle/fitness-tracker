@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { Router } from "@angular/router";
 import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "@angular/fire/auth";
 import { TrainingService } from "../training/training.service";
+import { UIService } from "../shared/ui.service";
 // import { User } from "./user.model"; // replaced by Firestore
 
 @Injectable() // to inject the Router, Authentication, and other Services
@@ -15,18 +16,30 @@ export class AuthService {
 
   constructor (private router: Router, 
                private auth: Auth, 
-               private trainingService: TrainingService) {}
+               private trainingService: TrainingService,
+               private uiService: UIService ) {}
 
   // Sign up a new user
   signupUser(authData: AuthData) {
+    this.uiService.loadingState.next(true);
     // create our User
     createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
     .then(result => {
       console.log(result);
       // this.completeAuth();
+      this.uiService.loadingState.next(false);
     })
     .catch(error => {
+      this.uiService.loadingState.next(false);
       console.log(error);
+      console.log("error code:", error.code);
+      console.log("error message:", error.message);
+      if (error.code == "auth/email-already-in-use") {
+        this.uiService.showSnackBar ("Account already exists for this email address", null, 3000);
+      }
+      else {
+        this.uiService.showSnackBar("Error: " + error.code, null, 3000);
+      }
     });
 
     // this.user = { // replaced by AngularFire
@@ -37,14 +50,25 @@ export class AuthService {
   
   // Login a User  
   loginUser(authData: AuthData) {
+    this.uiService.loadingState.next(true);
     // authenticate our User with the server
     signInWithEmailAndPassword(this.auth, authData.email, authData.password)
     .then(result => {
       console.log(result);
       // this.completeAuth();
+      this.uiService.loadingState.next(false);
     })
     .catch(error => {
+      this.uiService.loadingState.next(false);
       console.log(error);
+      console.log("error code:", error.code);
+      console.log("error message:", error.message);
+      if (error.code == "auth/invalid-credential") {
+        this.uiService.showSnackBar("Invalid Credentials", null, 3000);
+      }
+      else {
+        this.uiService.showSnackBar("Error: " + error.code, null, 3000);
+      }
     })
 
     // this.user = { // replaced by AngularFire

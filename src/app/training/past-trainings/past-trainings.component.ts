@@ -15,6 +15,7 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
   displayedColumns = ['date', 'name', 'duration', 'calories'];
   dataSource = new MatTableDataSource<Activity>();
   activitiesSub: Subscription;
+  isLoading = true;
 
   @ViewChild(MatSort) sort: MatSort; // sorting functionality
   @ViewChild(MatPaginator) paginator: MatPaginator; // pagination functionality
@@ -25,7 +26,10 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
     // this.dataSource.data = this.trainingService.getPastActivities(); // replaced by Firestore fetching
     this.trainingService.fetchPastActivities();
     this.activitiesSub = this.trainingService.pastActivitiesChanged.subscribe(
-      activities => (this.dataSource.data = activities)
+      activities => {
+        this.dataSource.data = activities;
+        this.isLoading = false;
+      }
     );
   }
 

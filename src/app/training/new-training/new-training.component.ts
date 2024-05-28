@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   activities: Activity[] = [];
   activitiesSub: Subscription;
+  isLoading = true;
 
   // replaced by TrainingService
   // public training = ['cardio', 'aerobics', 'running', 'walking'];
@@ -25,7 +26,10 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.trainingService.fetchAvailableActivities();
     this.activitiesSub = this.trainingService.availableActivitiesChanged.subscribe(
-      activities => (this.activities = activities)
+      activities => {
+        this.activities = activities;
+        this.isLoading = false;
+      }
     );
   }
 

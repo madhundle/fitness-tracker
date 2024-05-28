@@ -24,8 +24,12 @@
      color="primary" 
      type="submit" 
      id="submitBtn"
-     [disabled]="signupForm.invalid">
+     [disabled]="signupForm.invalid"
+     *ngIf="!isLoading">
      Submit
     </button>
+
+    <!-- Login Progress Spinner -->
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>
