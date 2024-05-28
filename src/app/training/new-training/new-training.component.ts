@@ -41,8 +41,12 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.trainingService.availableActivitiesUnsub(); // unsubscribe firestore listener
-    this.activitiesSub.unsubscribe();
+    if (this.trainingService.availableActivitiesUnsub) {
+      this.trainingService.availableActivitiesUnsub(); // unsubscribe firestore listener
+    }
+    if (this.activitiesSub) {
+      this.activitiesSub.unsubscribe();
+    }
   }
 }
 

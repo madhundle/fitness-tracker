@@ -1,15 +1,27 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { CanLoad, Route, Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 
 // Protect the Training route if not authenticated
 // a guard must always return true, a Promise that resolves to true, or an Observable that resolves to true
 @Injectable() // allow injection of the AuthService and Router
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanLoad {
   constructor (private authService: AuthService, private router: Router) {}
 
+  // Replaced by Lazy Loading with canLoad
   // args: the route we're trying to active (nav to) and the current routing state
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  //   // if user is authenticated, allow access
+  //   if (this.authService.getAuthStatus()) {
+  //     return true;
+  //   }
+  //   // if not, redirect them to login
+  //   else {
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
+
+  canLoad(route: Route) {
     // if user is authenticated, allow access
     if (this.authService.getAuthStatus()) {
       return true;
@@ -19,5 +31,4 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/login']);
     }
   }
-
 }

@@ -94,7 +94,6 @@ export class AuthService {
     // if this is in the listener, it gets called right away when the listener is first initialized
     this.trainingService.cancelSubs();
     // this.user = null; // replaced by Firestore
-    // this.trainingService.cancelSubs();
     // this.authStatus = false;
     // this.authChange.next(false);
     // this.router.navigate(['/']);

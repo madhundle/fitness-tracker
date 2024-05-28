@@ -3,9 +3,8 @@ import { NgModule } from "@angular/core";
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 
-import { MaterialModule } from "../material.module";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { SharedModule } from "../shared/shared.module";
+import { AuthRoutingModule } from "./auth-routing.module";
 import { getAuth, provideAuth } from "@angular/fire/auth";
 
 @NgModule({
@@ -14,12 +13,10 @@ import { getAuth, provideAuth } from "@angular/fire/auth";
     LoginComponent
   ],
   imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
+    SharedModule,
+    AuthRoutingModule,
     provideAuth(() => getAuth()),
 
-  ],
-  exports: []
+  ]
 })
 export class AuthModule {}

@@ -6,10 +6,8 @@ import { NewTrainingComponent } from "./new-training/new-training.component";
 import { PastTrainingsComponent } from "./past-trainings/past-trainings.component";
 import { PauseTrainingComponent } from "./current-training/pause-training.component";
 
-import { MaterialModule } from "../material.module";
-import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { getFirestore, provideFirestore } from "@angular/fire/firestore";
+import { SharedModule } from "../shared/shared.module";
+import { TrainingRoutingModule } from "./training-routing.module";
 
 @NgModule({
   declarations: [
@@ -20,11 +18,8 @@ import { getFirestore, provideFirestore } from "@angular/fire/firestore";
     PauseTrainingComponent
   ],
   imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    provideFirestore(() => getFirestore())
-  ],
-  exports: []
+    SharedModule,
+    TrainingRoutingModule
+  ]
 })
 export class TrainingModule {}

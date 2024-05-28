@@ -44,7 +44,11 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.trainingService.pastActivitiesUnsub(); // unsubscribe firestore listener
-    this.activitiesSub.unsubscribe();
+    if (this.trainingService.pastActivitiesUnsub) {
+      this.trainingService.pastActivitiesUnsub(); // unsubscribe firestore listener
+    }
+    if (this.activitiesSub) {
+      this.activitiesSub.unsubscribe();
+    }
   }
 }

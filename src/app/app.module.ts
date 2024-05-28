@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-
-import { AuthModule } from './auth/auth.module';
-import { TrainingModule } from './training/training.module';
-import { MaterialModule } from './material.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AuthModule } from './auth/auth.module';
+// import { TrainingModule } from './training/training.module';
+import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -15,7 +15,9 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
 import { UIService } from './shared/ui.service';
+
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 
 import { environment } from '../environments/environment';
 
@@ -28,11 +30,12 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     AuthModule,
-    TrainingModule,
+    // TrainingModule,
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())  
   ],
   providers: [
     provideAnimationsAsync(),
