@@ -9,6 +9,7 @@ import { PauseTrainingComponent } from "./current-training/pause-training.compon
 import { MaterialModule } from "../material.module";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonModule } from "@angular/common";
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    provideFirestore(() => getFirestore())
   ],
   exports: []
 })

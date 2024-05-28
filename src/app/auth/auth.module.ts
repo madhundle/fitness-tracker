@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from "../material.module";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { getAuth, provideAuth } from "@angular/fire/auth";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { FormsModule } from "@angular/forms";
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    provideAuth(() => getAuth()),
+
   ],
   exports: []
 })
