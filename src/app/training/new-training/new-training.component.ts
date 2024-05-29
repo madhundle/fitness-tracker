@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TrainingService } from '../training.service';
 import { Activity } from '../activity.model';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import * as fromRoot from "../../app.reducer";
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-new-training',
@@ -12,23 +14,26 @@ import { Subscription } from 'rxjs';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   activities: Activity[] = [];
   activitiesSub: Subscription;
-  isLoading = true;
+  // isLoading = true; // replaced by NgRx state management
+  isLoading$: Observable<boolean>;
 
   // replaced by TrainingService
   // public training = ['cardio', 'aerobics', 'running', 'walking'];
   // @Output() trainingStart = new EventEmitter<void>();
 
-  constructor (private trainingService: TrainingService) {
+  constructor (private trainingService: TrainingService,
+               private store: Store<fromRoot.State> ) {
     // replaced by Firestore
     // this.activities = this.trainingService.getAvailableActivities();
   }
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     this.trainingService.fetchAvailableActivities();
     this.activitiesSub = this.trainingService.availableActivitiesChanged.subscribe(
       activities => {
         this.activities = activities;
-        this.isLoading = false;
+        // this.isLoading = false;
       }
     );
   }

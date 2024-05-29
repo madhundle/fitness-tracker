@@ -4,7 +4,9 @@ import { Activity } from '../activity.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from "../../app.reducer";
 
 @Component({
   selector: 'app-past-trainings',
@@ -15,20 +17,24 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
   displayedColumns = ['date', 'name', 'duration', 'calories'];
   dataSource = new MatTableDataSource<Activity>();
   activitiesSub: Subscription;
-  isLoading = true;
+  // isLoading = true; // replaced by NgRx state management
+  isLoading$: Observable<boolean>;
 
   @ViewChild(MatSort) sort: MatSort; // sorting functionality
   @ViewChild(MatPaginator) paginator: MatPaginator; // pagination functionality
 
-  constructor (private trainingService: TrainingService) {}
+  constructor (private trainingService: TrainingService,
+               private store: Store<fromRoot.State> ) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+
     // this.dataSource.data = this.trainingService.getPastActivities(); // replaced by Firestore fetching
     this.trainingService.fetchPastActivities();
     this.activitiesSub = this.trainingService.pastActivitiesChanged.subscribe(
       activities => {
         this.dataSource.data = activities;
-        this.isLoading = false;
+        // this.isLoading = false;
       }
     );
   }

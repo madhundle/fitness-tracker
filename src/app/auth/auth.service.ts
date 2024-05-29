@@ -5,6 +5,9 @@ import { Router } from "@angular/router";
 import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "@angular/fire/auth";
 import { TrainingService } from "../training/training.service";
 import { UIService } from "../shared/ui.service";
+import { Store } from "@ngrx/store";
+import * as fromRoot from "../app.reducer";
+import * as UI from "../shared/ui.actions";
 // import { User } from "./user.model"; // replaced by Firestore
 
 @Injectable() // to inject the Router, Authentication, and other Services
@@ -17,20 +20,26 @@ export class AuthService {
   constructor (private router: Router, 
                private auth: Auth, 
                private trainingService: TrainingService,
-               private uiService: UIService ) {}
+               private uiService: UIService,
+               private store: Store<fromRoot.State>) {}
 
   // Sign up a new user
   signupUser(authData: AuthData) {
-    this.uiService.loadingState.next(true);
+    // replaced by NgRx state management
+    // this.uiService.loadingState.next(true);
+    this.store.dispatch(new UI.StartLoading());
+
     // create our User
     createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
     .then(result => {
       console.log(result);
       // this.completeAuth();
-      this.uiService.loadingState.next(false);
+      // this.uiService.loadingState.next(false);
+      this.store.dispatch(new UI.StopLoading());
     })
     .catch(error => {
-      this.uiService.loadingState.next(false);
+      // this.uiService.loadingState.next(false);
+      this.store.dispatch(new UI.StopLoading());
       console.log(error);
       console.log("error code:", error.code);
       console.log("error message:", error.message);
@@ -50,16 +59,21 @@ export class AuthService {
   
   // Login a User  
   loginUser(authData: AuthData) {
-    this.uiService.loadingState.next(true);
+    // replaced by NgRx state management
+    // this.uiService.loadingState.next(true);
+    this.store.dispatch(new UI.StartLoading());
+
     // authenticate our User with the server
     signInWithEmailAndPassword(this.auth, authData.email, authData.password)
     .then(result => {
       console.log(result);
       // this.completeAuth();
-      this.uiService.loadingState.next(false);
+      // this.uiService.loadingState.next(false);
+      this.store.dispatch(new UI.StopLoading());
     })
     .catch(error => {
-      this.uiService.loadingState.next(false);
+      // this.uiService.loadingState.next(false);
+      this.store.dispatch(new UI.StopLoading());
       console.log(error);
       console.log("error code:", error.code);
       console.log("error message:", error.message);

@@ -33,7 +33,7 @@
   </mat-table>
 
   <!-- Loading Spinner -->
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
 
   <!-- Pagination for the Table -->
   <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>

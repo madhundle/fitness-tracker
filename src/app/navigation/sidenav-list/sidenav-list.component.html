@@ -19,7 +19,8 @@
       <mat-icon>fitness_center</mat-icon><span class="sidenavSpan">Training</span>
     </div>
   </a>
-  <a mat-list-item routerLink="/logout" (click)="onLogout()" *ngIf="isAuth">
+  <!-- <a mat-list-item routerLink="/logout" (click)="onLogout()" *ngIf="isAuth"> -->
+  <a mat-list-item (click)="onLogout()" *ngIf="isAuth">
     <div class="sidenavLink">
       <mat-icon>eject</mat-icon><span class="sidenavSpan">Logout</span>
     </div>

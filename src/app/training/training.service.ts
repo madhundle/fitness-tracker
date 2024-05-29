@@ -3,6 +3,9 @@ import { Activity } from "./activity.model";
 import { Subject } from "rxjs";
 import { Injectable } from '@angular/core';
 import { UIService } from '../shared/ui.service';
+import { Store } from '@ngrx/store';
+import * as fromRoot from "../app.reducer";
+import * as UI from "../shared/ui.actions";
 
 // Manage all training for a user
 @Injectable() // allow for injection of Firestore
@@ -28,7 +31,9 @@ export class TrainingService {
   pastActivitiesUnsub: any; // firestore listener
   pastActivitiesRef: any; // reference to Firestore collection
 
-  constructor (private db: Firestore, private uiService: UIService) {
+  constructor (private db: Firestore, 
+               private uiService: UIService,
+               private store: Store<fromRoot.State>) {
     // set up Firestore references    
     this.availableActivitiesRef = collection(this.db, 'availableActivities');
     this.pastActivitiesRef = collection(this.db, 'pastActivities');
@@ -36,6 +41,9 @@ export class TrainingService {
 
   // create real-time listener to availableActivities in Firestore
   fetchAvailableActivities() {
+    // dispatch loading state
+    this.store.dispatch(new UI.StartLoading());
+
     // create listener to that reference which responds to changes
     this.availableActivitiesUnsub = onSnapshot(
       this.availableActivitiesRef, 
@@ -53,10 +61,13 @@ export class TrainingService {
           // console.log({...doc.data(), id: doc.id} as Activity);
           // this.activities.push({...doc.data(), id: doc.id} as Activity);
         // })
+
+        this.store.dispatch(new UI.StopLoading());
       },
       (error) => { // onError
         console.log("Error fetching available activities");
         console.log(error);
+        this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackBar("Error fetching available activities, please try again later", null, 3000);
       }
     );
@@ -64,6 +75,9 @@ export class TrainingService {
 
   // create real-time listener to pastActivities in Firestore
   fetchPastActivities() {
+    // dispatch loading state
+    this.store.dispatch(new UI.StartLoading());
+
     this.pastActivitiesUnsub = onSnapshot(
       this.pastActivitiesRef, 
       (snapshot) => { // onNext
@@ -71,10 +85,13 @@ export class TrainingService {
           ({...doc.data(), date: doc.get('date').toDate(), id: doc.id} as Activity)); 
         // *Could refactor to just emit the pastActivities instead of storing*
         this.pastActivitiesChanged.next([...this.pastActivities]); 
+
+        this.store.dispatch(new UI.StopLoading());
       },
       (error) => { // onError
         console.log("Error fetching past activities");
         console.log(error);
+        this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackBar("Error fetching past activities, please try again later", null, 3000);
       }
     )

@@ -20,6 +20,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 
 import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
+    StoreModule.forRoot(reducers),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())  
   ],
