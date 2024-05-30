@@ -7,7 +7,8 @@ import { TrainingService } from "../training/training.service";
 import { UIService } from "../shared/ui.service";
 import { Store } from "@ngrx/store";
 import * as fromRoot from "../app.reducer";
-import * as UI from "../shared/ui.actions";
+import * as UIActions from "../shared/ui.actions";
+import * as AuthActions from "../auth/auth.actions";
 // import { User } from "./user.model"; // replaced by Firestore
 
 @Injectable() // to inject the Router, Authentication, and other Services
@@ -27,7 +28,7 @@ export class AuthService {
   signupUser(authData: AuthData) {
     // replaced by NgRx state management
     // this.uiService.loadingState.next(true);
-    this.store.dispatch(new UI.StartLoading());
+    this.store.dispatch(new UIActions.StartLoading());
 
     // create our User
     createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
@@ -35,11 +36,11 @@ export class AuthService {
       console.log(result);
       // this.completeAuth();
       // this.uiService.loadingState.next(false);
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIActions.StopLoading());
     })
     .catch(error => {
       // this.uiService.loadingState.next(false);
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIActions.StopLoading());
       console.log(error);
       console.log("error code:", error.code);
       console.log("error message:", error.message);
@@ -61,7 +62,7 @@ export class AuthService {
   loginUser(authData: AuthData) {
     // replaced by NgRx state management
     // this.uiService.loadingState.next(true);
-    this.store.dispatch(new UI.StartLoading());
+    this.store.dispatch(new UIActions.StartLoading());
 
     // authenticate our User with the server
     signInWithEmailAndPassword(this.auth, authData.email, authData.password)
@@ -69,11 +70,11 @@ export class AuthService {
       console.log(result);
       // this.completeAuth();
       // this.uiService.loadingState.next(false);
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIActions.StopLoading());
     })
     .catch(error => {
       // this.uiService.loadingState.next(false);
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIActions.StopLoading());
       console.log(error);
       console.log("error code:", error.code);
       console.log("error message:", error.message);
@@ -110,7 +111,7 @@ export class AuthService {
     // this.user = null; // replaced by Firestore
     // this.authStatus = false;
     // this.authChange.next(false);
-    // this.router.navigate(['/']);
+    this.router.navigate(['/']);
   }
 
   // replaced by Firestore
@@ -123,7 +124,7 @@ export class AuthService {
   // Let the rest of the app quickly check if there's a user currently authenticated
   getAuthStatus() {
     // return this.user != null; // replaced by Firestore
-    return this.authStatus;
+    return this.authStatus; // *** needs replaced by NgRx state management
   }
 
   // Listen to auth changes and respond appropriately
@@ -131,18 +132,27 @@ export class AuthService {
     authState(this.auth).subscribe(user => {
       // For a valid user, complete authentication
       if (user) {
-        this.authStatus = true;
+        this.store.dispatch(new AuthActions.Authenticate());
+        // replaced by NgRx state management
+        // this.authStatus = true; 
         // if successful, tell the rest of the app
-        this.authChange.next(true);
+        // this.authChange.next(true);
+        
         // redirect appropriately
         this.router.navigate(['/training'])
       }
 
       // On first initialization or log out, no authentication
       else {
-        this.authStatus = false;
-        this.authChange.next(false);
-        this.router.navigate(['/']);
+        this.store.dispatch(new AuthActions.Unauthenticate());
+        // replaced by NgRx state management
+        // this.authStatus = false;
+        // this.authChange.next(false);
+
+        // redirect appropriately
+        // note: If I use the line below, I can never navigate directly by URL,
+        // this always takes you to the homepage
+        // this.router.navigate(['/']);
       }
     });
   }

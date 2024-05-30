@@ -13,10 +13,10 @@
 
   <!-- Links -->
   <div id="links" *ngIf="!smallScreen">
-    <a routerLink="/signup" *ngIf="!isAuth">Signup</a>
-    <a routerLink="/login" *ngIf="!isAuth">Login</a>
-    <a routerLink="/training" *ngIf="isAuth">Training</a>
-    <button mat-flat-button color="accent" *ngIf="isAuth"
+    <a routerLink="/signup" *ngIf="!(isAuth$ | async)">Signup</a>
+    <a routerLink="/login" *ngIf="!(isAuth$ | async)">Login</a>
+    <a routerLink="/training" *ngIf="(isAuth$ | async)">Training</a>
+    <button mat-flat-button color="accent" *ngIf="(isAuth$ | async)"
       (click)="onLogout()">Logout</button>
   </div>
 </mat-toolbar>

@@ -16,7 +16,6 @@ import { getAuth, provideAuth } from "@angular/fire/auth";
     SharedModule,
     AuthRoutingModule,
     provideAuth(() => getAuth()),
-
   ]
 })
 export class AuthModule {}
