@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { AuthData } from "./auth-data.model";
-import { Subject } from "rxjs";
 import { Router } from "@angular/router";
 import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "@angular/fire/auth";
 import { TrainingService } from "../training/training.service";
@@ -13,9 +12,12 @@ import * as AuthActions from "../auth/auth.actions";
 
 @Injectable() // to inject the Router, Authentication, and other Services
 export class AuthService {
+  // replaced by Firestore
   // private user: User; // the currently authenticated user, or null
-  private authStatus = false; // boolean for if a user is authenticated
-  authChange = new Subject<boolean>(); // let the app subscribe to login/logout
+  // replaced by NgRx state management
+  // private authStatus = false; // boolean for if a user is authenticated
+  // authChange = new Subject<boolean>(); // let the app subscribe to login/logout
+
   // private auth = inject(Auth); // an alternative way to injecting in constructor
 
   constructor (private router: Router, 
@@ -121,11 +123,12 @@ export class AuthService {
     // return { ...this.user };
   // }
 
+  // replaced by NgRx state management
   // Let the rest of the app quickly check if there's a user currently authenticated
-  getAuthStatus() {
-    // return this.user != null; // replaced by Firestore
-    return this.authStatus; // *** needs replaced by NgRx state management
-  }
+  // getAuthStatus() {
+  //   // return this.user != null; // replaced by Firestore
+  //   return this.authStatus;
+  // }
 
   // Listen to auth changes and respond appropriately
   initAuthListener() {

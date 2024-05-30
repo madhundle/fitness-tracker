@@ -1,5 +1,5 @@
 <!-- Show options of New Training or Past Trainings -->
-<mat-tab-group dynamicHeight *ngIf="!activeTraining" [selectedIndex]="selectedIndex">
+<mat-tab-group dynamicHeight *ngIf="!(isCurrentlyTraining$ | async)" [selectedIndex]="selectedIndex">
     <mat-tab label="New Training">
       <app-new-training></app-new-training>
     </mat-tab>
@@ -10,5 +10,5 @@
 
 <!-- When a training is active, show the Current Training -->
 <app-current-training 
-  *ngIf="activeTraining">
+  *ngIf="(isCurrentlyTraining$ | async)">
 </app-current-training>

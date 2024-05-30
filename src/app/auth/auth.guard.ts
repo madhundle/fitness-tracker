@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanLoad, Route, Router } from "@angular/router";
-import { AuthService } from "./auth.service";
-import { Observable, take, tap } from "rxjs";
+import { take, tap } from "rxjs";
 import { Store } from "@ngrx/store";
 import * as fromRoot from "../app.reducer";
 
@@ -9,9 +8,8 @@ import * as fromRoot from "../app.reducer";
 // a guard must always return true, a Promise that resolves to true, or an Observable that resolves to true
 @Injectable() // allow injection of the AuthService and Router
 export class AuthGuard implements CanLoad {
-  constructor (private authService: AuthService, 
-               private router: Router,
-               private store: Store<fromRoot.State>) {}
+  constructor ( private router: Router,
+                private store: Store<fromRoot.State> ) {}
 
   // Replaced by Lazy Loading with canLoad
   // args: the route we're trying to active (nav to) and the current routing state

@@ -9,6 +9,9 @@ import { PauseTrainingComponent } from "./current-training/pause-training.compon
 import { SharedModule } from "../shared/shared.module";
 import { TrainingRoutingModule } from "./training-routing.module";
 
+import { StoreModule } from "@ngrx/store";
+import { trainingReducer } from "./training.reducer";
+
 @NgModule({
   declarations: [
     TrainingComponent,
@@ -19,7 +22,9 @@ import { TrainingRoutingModule } from "./training-routing.module";
   ],
   imports: [
     SharedModule,
-    TrainingRoutingModule
+    TrainingRoutingModule,
+    // map state slice 'training' to the trainingReducer for a lazily loaded module
+    StoreModule.forFeature('training', trainingReducer)
   ]
 })
 export class TrainingModule {}

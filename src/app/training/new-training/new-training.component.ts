@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TrainingService } from '../training.service';
 import { Activity } from '../activity.model';
 import { NgForm } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as fromRoot from "../../app.reducer";
+import * as fromTraining from "../training.reducer";
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -12,9 +13,11 @@ import { Store } from '@ngrx/store';
   styleUrl: './new-training.component.scss'
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
-  activities: Activity[] = [];
-  activitiesSub: Subscription;
-  // isLoading = true; // replaced by NgRx state management
+  // replaced by NgRx state management
+  // activities: Activity[] = []; 
+  // activitiesSub: Subscription;
+  // isLoading = true;
+  activities$: Observable<Activity[]>;
   isLoading$: Observable<boolean>;
 
   // replaced by TrainingService
@@ -22,7 +25,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   // @Output() trainingStart = new EventEmitter<void>();
 
   constructor (private trainingService: TrainingService,
-               private store: Store<fromRoot.State> ) {
+               private store: Store<fromTraining.State> ) {
     // replaced by Firestore
     // this.activities = this.trainingService.getAvailableActivities();
   }
@@ -30,12 +33,14 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     this.trainingService.fetchAvailableActivities();
-    this.activitiesSub = this.trainingService.availableActivitiesChanged.subscribe(
-      activities => {
-        this.activities = activities;
-        // this.isLoading = false;
-      }
-    );
+    this.activities$ = this.store.select(fromTraining.getAvailableActivities);
+    // replaced by NgRx state management
+    // this.activitiesSub = this.trainingService.availableActivitiesChanged.subscribe(
+    //   activities => {
+    //     this.activities = activities;
+    //     // this.isLoading = false;
+    //   }
+    // );
   }
 
   // When a new training form is submitted, start the activity
@@ -49,9 +54,9 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     if (this.trainingService.availableActivitiesUnsub) {
       this.trainingService.availableActivitiesUnsub(); // unsubscribe firestore listener
     }
-    if (this.activitiesSub) {
-      this.activitiesSub.unsubscribe();
-    }
+    // if (this.activitiesSub) {
+    //   this.activitiesSub.unsubscribe();
+    // }
   }
 }
 

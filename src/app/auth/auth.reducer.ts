@@ -19,5 +19,5 @@ export function authReducer(state = initialState, action: AuthActions) {
   }
 }
 
-// utility function for qauthck access to a state property
+// utility function for quick access to a state property
 export const getIsAuthenticated = (state: State) => state.isAuthenticated;
