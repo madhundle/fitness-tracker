@@ -1,7 +1,7 @@
 <section>
 
-  <!-- Signup Form -->
-  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+  <!-- Login Form -->
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
 
     <!-- Email -->
     <mat-form-field floatLabel="auto">
@@ -24,12 +24,13 @@
      color="primary" 
      type="submit" 
      id="submitBtn"
-     [disabled]="signupForm.invalid"
+     [disabled]="loginForm.invalid"
      *ngIf="!(isLoading$ | async)">
      Submit
     </button>
 
     <!-- Login Progress Spinner -->
-    <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
+    <mat-spinner 
+    ></mat-spinner>
   </form>
 </section>

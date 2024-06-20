@@ -4,7 +4,7 @@ import { AuthService } from '../auth.service';
 // import { UIService } from '../../shared/ui.service';
 // import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs-compat';
-import { map } from 'rxjs';
+// import { map } from 'rxjs';
 // import { map } from 'rxjs-compat/operator/map';
 import { Store } from '@ngrx/store';
 import * as fromRoot from "../../app.reducer";

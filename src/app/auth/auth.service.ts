@@ -10,7 +10,7 @@ import * as UIActions from "../shared/ui.actions";
 import * as AuthActions from "../auth/auth.actions";
 // import { User } from "./user.model"; // replaced by Firestore
 
-@Injectable() // to inject the Router, Authentication, and other Services
+@Injectable() // to inject the Router, Firestore Authentication, NgRx Store, and other Services
 export class AuthService {
   // replaced by Firestore
   // private user: User; // the currently authenticated user, or null
@@ -53,7 +53,7 @@ export class AuthService {
         this.uiService.showSnackBar("Error: " + error.code, null, 3000);
       }
     });
-
+    
     // this.user = { // replaced by AngularFire
     //   email: authData.email,
     //   userId: String(Math.round(Math.random() * 10000))
